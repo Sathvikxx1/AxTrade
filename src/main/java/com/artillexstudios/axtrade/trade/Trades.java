@@ -1,5 +1,6 @@
 package com.artillexstudios.axtrade.trade;
 
+import com.artillexstudios.axapi.scheduler.Scheduler;
 import com.artillexstudios.axtrade.utils.SoundUtils;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
@@ -13,12 +14,14 @@ public class Trades {
     private static final ArrayList<Trade> trades = new ArrayList<>();
 
     public static void addTrade(Player p1, Player p2) {
-        Trade trade = new Trade(p1, p2);
-        trades.add(trade);
-        MESSAGEUTILS.sendLang(p1, "trade.started", Map.of("%player%", p2.getName()));
-        MESSAGEUTILS.sendLang(p2, "trade.started", Map.of("%player%", p1.getName()));
-        SoundUtils.playSound(p1, "started");
-        SoundUtils.playSound(p2, "started");
+        Scheduler.get().runAsync(() -> {
+            Trade trade = new Trade(p1, p2);
+            trades.add(trade);
+            MESSAGEUTILS.sendLang(p1, "trade.started", Map.of("%player%", p2.getName()));
+            MESSAGEUTILS.sendLang(p2, "trade.started", Map.of("%player%", p1.getName()));
+            SoundUtils.playSound(p1, "started");
+            SoundUtils.playSound(p2, "started");
+        });
     }
 
     public static void removeTrade(Trade trade) {

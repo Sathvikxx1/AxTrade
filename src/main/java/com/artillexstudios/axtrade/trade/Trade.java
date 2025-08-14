@@ -38,8 +38,10 @@ public class Trade {
     }
 
     public void update() {
-        player1.getTradeGui().update();
-        player2.getTradeGui().update();
+        Scheduler.get().run(() -> {
+            player1.getTradeGui().update();
+            player2.getTradeGui().update();
+        });
     }
 
     public void end() {

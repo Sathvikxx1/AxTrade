@@ -1,5 +1,6 @@
 package com.artillexstudios.axtrade.trade;
 
+import com.artillexstudios.axapi.scheduler.Scheduler;
 import com.artillexstudios.axtrade.hooks.HookManager;
 import com.artillexstudios.axtrade.hooks.currency.CurrencyHook;
 import com.artillexstudios.axtrade.utils.NumberUtils;
@@ -32,9 +33,12 @@ public class TradePlayer {
         this.trade = trade;
     }
 
+
     public void setOtherPlayer(TradePlayer otherPlayer) {
-        this.otherPlayer = otherPlayer;
-        this.tradeGui = new TradeGui(trade, this);
+        Scheduler.get().run(() -> {
+            this.otherPlayer = otherPlayer;
+            this.tradeGui = new TradeGui(trade, this);
+        });
     }
 
     public Player getPlayer() {

@@ -2,6 +2,7 @@ package com.artillexstudios.axtrade.trade;
 
 import com.artillexstudios.axapi.config.Config;
 import com.artillexstudios.axapi.nms.wrapper.ServerPlayerWrapper;
+import com.artillexstudios.axapi.scheduler.Scheduler;
 import com.artillexstudios.axapi.utils.NumberUtils;
 import com.artillexstudios.axapi.utils.PlayerTextures;
 import com.artillexstudios.axtrade.utils.ItemBuilderUtil;
@@ -81,17 +82,18 @@ public class GuiFrame {
     }
 
     protected void createItem(@NotNull String slotRoute, String itemRoute, @Nullable GuiAction<InventoryClickEvent> action, Map<String, String> replacements, int amount) {
-        if (file.getString(itemRoute + ".type") == null && file.getString(itemRoute + ".material") == null) return;
-        final ItemStack it = buildItem(itemRoute, replacements);
-        it.setAmount(amount);
-        final GuiItem guiItem = new GuiItem(it, action);
-        if (opened) {
-            for (int slot : getSlots(slotRoute)) {
-                gui.updateItem(slot, guiItem);
-            }
-        }
-        else
-            gui.setItem(getSlots(slotRoute), guiItem);
+        Scheduler.get().runAsync(() -> {
+            if (file.getString(itemRoute + ".type") == null && file.getString(itemRoute + ".material") == null) return;
+            final ItemStack it = buildItem(itemRoute, replacements);
+            it.setAmount(amount);
+            final GuiItem guiItem = new GuiItem(it, action);
+            if (opened) {
+                for (int slot : getSlots(slotRoute)) {
+                    gui.updateItem(slot, guiItem);
+                }
+            } else
+                gui.setItem(getSlots(slotRoute), guiItem);
+        });
     }
 
     protected List<Integer> getSlots(String r) {

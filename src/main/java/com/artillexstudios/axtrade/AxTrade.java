@@ -50,8 +50,8 @@ public final class AxTrade extends AxPlugin {
     public void enable() {
         instance = this;
 
-        int pluginId = 21500;
-        new Metrics(this, pluginId);
+       // int pluginId = 21500;
+      //  new Metrics(this, pluginId);
 
         CONFIG = new Config(new File(getDataFolder(), "config.yml"), getResource("config.yml"), GeneralSettings.builder().setUseDefaults(false).build(), LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setKeepAll(true).setVersioning(new BasicVersioning("version")).build());
         GUIS = new Config(new File(getDataFolder(), "guis.yml"), getResource("guis.yml"), GeneralSettings.builder().setUseDefaults(false).build(), LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT, UpdaterSettings.builder().setKeepAll(true).setVersioning(new BasicVersioning("version")).build());
@@ -69,6 +69,7 @@ public final class AxTrade extends AxPlugin {
 
         getServer().getPluginManager().registerEvents(new EntityInteractListener(), this);
         getServer().getPluginManager().registerEvents(new TradeListeners(), this);
+        TradeListeners.tick();
 
         HookManager.setupHooks();
         NumberUtils.reload();
@@ -80,14 +81,12 @@ public final class AxTrade extends AxPlugin {
 
         Bukkit.getConsoleSender().sendMessage(StringUtils.formatToString("&#00FFDD[AxTrade] Loaded plugin!"));
 
-        metrics = new AxMetrics(this, 8);
-        metrics.start();
-
-        if (CONFIG.getBoolean("update-notifier.enabled", true)) new UpdateNotifier(this, 5943);
+       // metrics = new AxMetrics(this, 8);
+     //   metrics.start();
+       // if (CONFIG.getBoolean("update-notifier.enabled", true)) new UpdateNotifier(this, 5943);
     }
 
     public void disable() {
-        if (metrics != null) metrics.cancel();
         SafetyManager.stop();
     }
 
