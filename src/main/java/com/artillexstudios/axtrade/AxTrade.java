@@ -65,6 +65,8 @@ public final class AxTrade extends AxPlugin {
         getServer().getPluginManager().registerEvents(new EntityInteractListener(), this);
         getServer().getPluginManager().registerEvents(new TradeListeners(), this);
 
+        TradeListeners.tick();
+
         HookManager.setupHooks();
         NumberUtils.reload();
 
@@ -84,6 +86,7 @@ public final class AxTrade extends AxPlugin {
     public void disable() {
         if (metrics != null) metrics.cancel();
         SafetyManager.stop();
+        TradeListeners.stop();
     }
 
     public void updateFlags() {

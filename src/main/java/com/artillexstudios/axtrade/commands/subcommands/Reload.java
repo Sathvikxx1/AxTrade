@@ -3,17 +3,14 @@ package com.artillexstudios.axtrade.commands.subcommands;
 import com.artillexstudios.axapi.utils.StringUtils;
 import com.artillexstudios.axtrade.hooks.HookManager;
 import com.artillexstudios.axtrade.lang.LanguageManager;
+import com.artillexstudios.axtrade.listeners.TradeListeners;
 import com.artillexstudios.axtrade.utils.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.Map;
 
-import static com.artillexstudios.axtrade.AxTrade.CONFIG;
-import static com.artillexstudios.axtrade.AxTrade.GUIS;
-import static com.artillexstudios.axtrade.AxTrade.HOOKS;
-import static com.artillexstudios.axtrade.AxTrade.LANG;
-import static com.artillexstudios.axtrade.AxTrade.MESSAGEUTILS;
+import static com.artillexstudios.axtrade.AxTrade.*;
 
 public enum Reload {
     INSTANCE;
@@ -48,7 +45,7 @@ public enum Reload {
 
         HookManager.updateHooks();
         NumberUtils.reload();
-
+        
         Bukkit.getConsoleSender().sendMessage(StringUtils.formatToString("&#00FFDD╚ &#AAFFDDSuccessful reload!"));
         MESSAGEUTILS.sendLang(sender, "reload.success");
     }
